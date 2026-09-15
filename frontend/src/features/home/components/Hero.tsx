@@ -52,7 +52,7 @@ export function Hero() {
           transition={{ duration: 0.85, ease: EASE, delay: 0.22 }}
           className="font-display font-light text-ink mb-5"
           style={{
-            fontSize: 'clamp(2.75rem, 5vw, 4.5rem)',
+            fontSize: 'clamp(1.75rem, 8vw, 4.5rem)',
             lineHeight: 1.05,
             letterSpacing: '-0.03em',
             textWrap: 'balance',
