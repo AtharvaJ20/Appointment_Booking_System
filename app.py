@@ -18,6 +18,7 @@ def create_app(config=Config):
 
     # CORS active only in dev — Vite dev server runs on port 5173
     if app.debug:
+        app.config["SESSION_COOKIE_SECURE"] = False  # HTTP localhost — Secure cookies dropped otherwise
         CORS(
             app,
             resources={r"/api/*": {"origins": "http://localhost:5173"}},
