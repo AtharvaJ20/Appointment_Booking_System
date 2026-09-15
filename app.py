@@ -58,6 +58,7 @@ def create_app(config=Config):
         return send_from_directory(_DIST, "index.html")
 
     with app.app_context():
+        os.makedirs(os.path.join(os.path.dirname(os.path.abspath(__file__)), "instance"), exist_ok=True)
         db.create_all()
         _seed_services()
         from slots import generate_slots
