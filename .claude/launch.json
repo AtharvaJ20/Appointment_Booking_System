@@ -1,0 +1,21 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "salon-frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "D:\\Appointment_Booking_System\\frontend",
+      "port": 5173,
+      "autoPort": true
+    },
+    {
+      "name": "frontend-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "D:\\Appointment_Booking_System\\frontend",
+      "port": 5174,
+      "autoPort": true
+    }
+  ]
+}

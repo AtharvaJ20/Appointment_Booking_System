@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Palette ── */
+  --color-ink:         #1A1815;
+  --color-ink-2:       #736D67;
+  --color-ink-3:       #B5AFA8;
+  --color-base:        #F4F1EC;
+  --color-surface:     #FDFCFB;
+  --color-rule:        #E0DAD3;
+  --color-amber:       #8C6840;
+  --color-amber-dark:  #6A4E2E;
+  --color-amber-pale:  #F3EBE1;
+
+  /* ── Typography ── */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans:    'DM Sans', system-ui, sans-serif;
+}
+
+/* shadcn/ui CSS variable contract — referenced by any shadcn component added later */
+:root {
+  --background:         var(--color-base);
+  --foreground:         var(--color-ink);
+  --primary:            var(--color-amber);
+  --primary-foreground: var(--color-surface);
+  --border:             var(--color-rule);
+  --input:              var(--color-rule);
+  --ring:               var(--color-amber);
+  --radius:             2px;
+  --muted-foreground:   var(--color-ink-2);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-base);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Skip-to-main link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 16px;
+  background: var(--color-amber);
+  color: var(--color-surface);
+  padding: 8px 16px;
+  border-radius: 2px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  z-index: 100;
+  transition: top 150ms ease;
+}
+.skip-link:focus {
+  top: 8px;
+}

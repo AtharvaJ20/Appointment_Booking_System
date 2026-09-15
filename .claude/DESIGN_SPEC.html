@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salon Design System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --ink:        #1A1815;
+    --ink-2:      #736D67;
+    --ink-3:      #B5AFA8;
+    --base:       #F4F1EC;
+    --surface:    #FDFCFB;
+    --rule:       #E0DAD3;
+    --amber:      #8C6840;
+    --amber-dark: #6A4E2E;
+    --amber-pale: #F3EBE1;
+
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; }
+
+  body {
+    background: var(--base);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    padding-inline: 0;
+  }
+
+  /* ── doc chrome ── */
+  .doc-header {
+    background: var(--ink);
+    color: var(--surface);
+    padding: 48px 64px;
+  }
+  .doc-header h1 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 2.25rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    text-wrap: balance;
+  }
+  .doc-header p { color: var(--ink-3); font-size: 0.875rem; }
+
+  .section {
+    padding: 64px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h2.heading {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 1.75rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+    text-wrap: balance;
+  }
+  p.sub { color: var(--ink-2); font-size: 0.875rem; margin-bottom: 32px; }
+
+  /* ── palette ── */
+  .swatches { display: flex; gap: 12px; flex-wrap: wrap; }
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 120px;
+  }
+  .swatch-block {
+    width: 100%;
+    height: 72px;
+    border-radius: 2px;
+  }
+  .swatch-name { font-size: 0.75rem; font-weight: 500; color: var(--ink); }
+  .swatch-hex  { font-size: 0.6875rem; color: var(--ink-2); font-feature-settings: "tnum"; }
+  .swatch-note { font-size: 0.6875rem; color: var(--ink-3); margin-top: 2px; }
+
+  /* ── type ── */
+  .type-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 24px 40px;
+    align-items: baseline;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-meta { font-size: 0.75rem; color: var(--ink-2); line-height: 1.5; }
+  .type-meta strong { display: block; color: var(--ink); font-weight: 500; }
+  .specimen-hero {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .specimen-h1 {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .specimen-h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .specimen-lead {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 300;
+    color: var(--ink-2);
+    line-height: 1.65;
+    max-width: 54ch;
+  }
+  .specimen-body {
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.7;
+    max-width: 60ch;
+  }
+  .specimen-label {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .specimen-price {
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: var(--ink-2);
+    font-feature-settings: "tnum";
+  }
+
+  /* ── buttons ── */
+  .btn-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .btn-primary {
+    background: var(--amber);
+    color: var(--surface);
+    border: none;
+    padding: 14px 32px;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 180ms ease;
+    line-height: 1;
+  }
+  .btn-primary:hover { background: var(--amber-dark); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--amber);
+    border: 1px solid var(--amber);
+    padding: 13px 32px;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 180ms ease, color 180ms ease;
+    line-height: 1;
+  }
+  .btn-ghost:hover { background: var(--amber); color: var(--surface); }
+  .btn-nav {
+    background: var(--amber);
+    color: var(--surface);
+    border: none;
+    padding: 10px 20px;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border-radius: 2px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .btn-note {
+    font-size: 0.75rem;
+    color: var(--ink-2);
+    margin-top: 16px;
+  }
+
+  /* ── form inputs ── */
+  .input-demo { max-width: 360px; display: flex; flex-direction: column; gap: 28px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .field input, .field select {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    padding: 8px 0 10px;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 150ms ease;
+    width: 100%;
+  }
+  .field input:focus, .field select:focus { border-bottom-color: var(--amber); }
+  .field input::placeholder { color: var(--ink-3); }
+  .field select { -webkit-appearance: none; appearance: none; cursor: pointer; }
+  .field-note { font-size: 0.75rem; color: var(--ink-3); margin-top: 4px; }
+
+  /* ── service card ── */
+  .cards-row { display: flex; gap: 20px; flex-wrap: wrap; }
+  .service-card {
+    background: var(--surface);
+    border-radius: 2px;
+    overflow: hidden;
+    width: 200px;
+    cursor: pointer;
+    transition: transform 200ms ease;
+  }
+  .service-card:hover { transform: scale(1.02); }
+  .card-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-3);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  .card-body { padding: 16px; }
+  .card-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .card-meta {
+    font-size: 0.8125rem;
+    color: var(--ink-2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-link {
+    font-size: 0.8125rem;
+    color: var(--amber);
+    font-weight: 500;
+    text-decoration: none;
+    margin-top: 12px;
+    display: inline-block;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── nav demo ── */
+  .nav-demo {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .nav-link {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .nav-link:hover { color: var(--ink); }
+
+  /* ── hero wireframe ── */
+  .wireframe-wrap { max-width: 640px; }
+  .wireframe {
+    font-family: ui-monospace, 'Cascadia Code', monospace;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--ink-2);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    padding: 28px 32px;
+    border-radius: 2px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* ── hero preview ── */
+  .hero-preview {
+    display: grid;
+    grid-template-columns: 45fr 55fr;
+    min-height: 360px;
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+  .hero-left {
+    background: var(--surface);
+    padding: 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+  }
+  .hero-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 20px;
+  }
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 3.25rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    text-wrap: balance;
+    margin-bottom: 20px;
+  }
+  .hero-sub {
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 300;
+    color: var(--ink-2);
+    line-height: 1.65;
+    max-width: 36ch;
+    margin-bottom: 32px;
+  }
+  .hero-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .hero-tag {
+    font-size: 0.75rem;
+    color: var(--ink-2);
+    padding: 5px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 1px;
+    white-space: nowrap;
+  }
+  .hero-right {
+    background: var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-3);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-right img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  /* ── motion spec ── */
+  .motion-table { width: 100%; border-collapse: collapse; }
+  .motion-table th {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: left;
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .motion-table td {
+    font-size: 0.8125rem;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    color: var(--ink);
+  }
+  .motion-table td:first-child { font-weight: 500; width: 200px; }
+  .motion-table td:last-child { color: var(--ink-2); font-size: 0.75rem; }
+  code {
+    font-family: ui-monospace, 'Cascadia Code', monospace;
+    font-size: 0.8125rem;
+    background: var(--amber-pale);
+    color: var(--amber-dark);
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+
+  /* ── token table ── */
+  .token-table { width: 100%; border-collapse: collapse; }
+  .token-table th {
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+    text-align: left;
+    padding: 0 16px 12px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .token-table td {
+    padding: 12px 16px 12px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.8125rem;
+    vertical-align: middle;
+  }
+  .token-table tr:last-child td { border-bottom: none; }
+
+  /* ── locked list ── */
+  .locked-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .locked-list li {
+    display: flex;
+    gap: 14px;
+    font-size: 0.875rem;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .locked-list li::before {
+    content: '✓';
+    color: var(--amber);
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .locked-list li strong { font-weight: 500; }
+
+  /* ── responsive ── */
+  @media (max-width: 640px) {
+    .section { padding: 40px 24px; }
+    .doc-header { padding: 40px 24px; }
+    .hero-preview { grid-template-columns: 1fr; }
+    .hero-right { min-height: 240px; }
+    .hero-left { padding: 36px 24px; }
+    .nav-demo { padding: 0 24px; }
+    .type-row { grid-template-columns: 1fr; }
+    .type-meta { margin-bottom: -8px; }
+    .swatches { gap: 8px; }
+    .swatch { min-width: 90px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="doc-header">
+  <h1>Design System — Unisex Salon</h1>
+  <p>Implementation-ready specification for Arjun &nbsp;·&nbsp; Day 1 design phase &nbsp;·&nbsp; 2026-09-14</p>
+</header>
+
+<!-- LOCKED DECISIONS -->
+<section class="section">
+  <div class="section-label">Locked decisions</div>
+  <ul class="locked-list">
+    <li><div><strong>Palette:</strong> Warm linen base (#F4F1EC), warm near-black ink (#1A1815), warm amber accent (#8C6840) derived from the brass mirror frames and ambient lighting in the photography. No pink, no terracotta, no blue.</div></li>
+    <li><div><strong>Display typeface:</strong> Fraunces (Google Fonts) — optical-size variable serif, weight 300–400. Used for all headlines, service names, and the logo. Not Cormorant, not Playfair. Fraunces has a slight optical irregularity that reads as handcrafted without any gendered connotation.</div></li>
+    <li><div><strong>Body / UI typeface:</strong> DM Sans (Google Fonts) — clean humanist geometric, weight 300–500. All labels, body text, prices, buttons, form inputs, navigation links.</div></li>
+    <li><div><strong>Hero layout:</strong> Split-screen. Text column left (45%), full-bleed hero image right (55%). No text overlay on the image. Left column is white (--surface), creating a clean reading surface.</div></li>
+    <li><div><strong>Button geometry:</strong> border-radius: 2px. Intentionally near-square — not a pill (too casual) and not fully square (too rigid). Padding: 14px 32px. Size: 14px / 0.875rem.</div></li>
+    <li><div><strong>Form inputs:</strong> Bottom-border only. No full border box. label above, 11px uppercase, 0.07em spacing. Input text 15px. Focus state: border-bottom-color switches to --amber.</div></li>
+    <li><div><strong>Service card image ratio:</strong> 3:4 portrait. This is the editorial choice — not landscape thumbnails. Creates a fashion/magazine quality that signals premium.</div></li>
+    <li><div><strong>Motion:</strong> One orchestrated hero entrance only. No scroll-triggered reveals on section entry. Hover states on cards (scale 1.02) and buttons (color shift) only. prefers-reduced-motion must disable all transforms.</div></li>
+    <li><div><strong>shadcn/ui theming:</strong> Override --radius to 2px, --primary to #8C6840, --primary-foreground to #FDFCFB, --ring to #8C6840 in the global CSS token block.</div></li>
+  </ul>
+</section>
+
+<!-- COLOUR PALETTE -->
+<section class="section">
+  <div class="section-label">Colour palette</div>
+  <div class="swatches">
+    <div class="swatch">
+      <div class="swatch-block" style="background:#1A1815; border:1px solid rgba(0,0,0,.06)"></div>
+      <div class="swatch-name">Ink</div>
+      <div class="swatch-hex">#1A1815</div>
+      <div class="swatch-note">Primary text, nav logo</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#736D67; border:1px solid rgba(0,0,0,.06)"></div>
+      <div class="swatch-name">Ink secondary</div>
+      <div class="swatch-hex">#736D67</div>
+      <div class="swatch-note">Subhead, meta, labels</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#B5AFA8; border:1px solid rgba(0,0,0,.06)"></div>
+      <div class="swatch-name">Ink muted</div>
+      <div class="swatch-hex">#B5AFA8</div>
+      <div class="swatch-note">Placeholders, rules</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#F4F1EC; border:1px solid rgba(0,0,0,.06)"></div>
+      <div class="swatch-name">Base</div>
+      <div class="swatch-hex">#F4F1EC</div>
+      <div class="swatch-note">Page background</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#FDFCFB; border:1px solid rgba(0,0,0,.06)"></div>
+      <div class="swatch-name">Surface</div>
+      <div class="swatch-hex">#FDFCFB</div>
+      <div class="swatch-note">Cards, hero left, nav</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#E0DAD3; border:1px solid rgba(0,0,0,.06)"></div>
+      <div class="swatch-name">Rule</div>
+      <div class="swatch-hex">#E0DAD3</div>
+      <div class="swatch-note">Borders, dividers</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#8C6840; border:1px solid rgba(0,0,0,.06)"></div>
+      <div class="swatch-name">Amber</div>
+      <div class="swatch-hex">#8C6840</div>
+      <div class="swatch-note">Primary accent, CTA</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#6A4E2E; border:1px solid rgba(0,0,0,.06)"></div>
+      <div class="swatch-name">Amber dark</div>
+      <div class="swatch-hex">#6A4E2E</div>
+      <div class="swatch-note">Hover state</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#F3EBE1; border:1px solid rgba(0,0,0,.06)"></div>
+      <div class="swatch-name">Amber pale</div>
+      <div class="swatch-hex">#F3EBE1</div>
+      <div class="swatch-note">Booking section bg</div>
+    </div>
+  </div>
+  <p style="font-size:0.75rem;color:var(--ink-2);margin-top:24px;">
+    Accent derived from: brass mirror frames, warm pendant lighting, wood cabinetry in the hero photography. Gender-neutral — reads as craft and material, not as a coded hue.
+  </p>
+</section>
+
+<!-- TYPOGRAPHY -->
+<section class="section">
+  <div class="section-label">Typography</div>
+  <div style="margin-bottom:24px;">
+    <div class="btn-note" style="margin:0 0 6px;font-size:0.75rem;font-weight:500;color:var(--ink);">Google Fonts import</div>
+    <code style="font-size:0.75rem;display:block;white-space:normal;line-height:1.8;">
+      &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&amp;family=DM+Sans:wght@300;400;500&amp;display=swap"&gt;
+    </code>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <strong>Hero headline</strong>
+      Fraunces · 300<br>
+      clamp(3rem, 5.5vw, 5.5rem)<br>
+      line-height: 1.0<br>
+      letter-spacing: −0.03em
+    </div>
+    <div class="specimen-hero">For every<br>version of you.</div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <strong>H1 / Section heading</strong>
+      Fraunces · 300<br>
+      2.25rem / 36px<br>
+      line-height: 1.15<br>
+      letter-spacing: −0.02em
+    </div>
+    <div class="specimen-h1">Our services</div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <strong>H2 / Card name</strong>
+      Fraunces · 400<br>
+      1.125rem / 18px<br>
+      line-height: 1.25<br>
+      letter-spacing: −0.01em
+    </div>
+    <div class="specimen-h2">Haircut &amp; Styling</div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <strong>Lead / Hero sub</strong>
+      DM Sans · 300<br>
+      1.0625rem / 17px<br>
+      line-height: 1.65<br>
+      color: --ink-2
+    </div>
+    <div class="specimen-lead">Cut, colour, and care — for every person, every style. Book your appointment online in under a minute.</div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <strong>Body</strong>
+      DM Sans · 400<br>
+      0.9375rem / 15px<br>
+      line-height: 1.7<br>
+      max-width: 60ch
+    </div>
+    <div class="specimen-body">A space designed for everyone who takes their appearance seriously. Our team of specialists works across hair, colour, and facial treatments — no appointment is routine, every session is personal.</div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <strong>Form label / eyebrow</strong>
+      DM Sans · 500<br>
+      0.6875rem / 11px<br>
+      letter-spacing: 0.09em<br>
+      text-transform: uppercase
+    </div>
+    <div class="specimen-label">Choose your service</div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <strong>Price / meta</strong>
+      DM Sans · 400<br>
+      0.8125rem / 13px<br>
+      font-feature-settings: "tnum"<br>
+      color: --ink-2
+    </div>
+    <div class="specimen-price">45 min &nbsp;·&nbsp; ₹800</div>
+  </div>
+</section>
+
+<!-- COMPONENTS: NAV -->
+<section class="section">
+  <div class="section-label">Navigation</div>
+  <h2 class="heading">Nav bar</h2>
+  <p class="sub">Height 72px. Transparent over hero on page load. Transitions to --surface + shadow after 80px scroll. No border at rest.</p>
+  <div class="nav-demo">
+    <div class="nav-logo">SOLENNE</div>
+    <div class="nav-links">
+      <a href="#" class="nav-link">Services</a>
+      <a href="#" class="nav-link">About</a>
+      <button class="btn-nav">Book an Appointment</button>
+    </div>
+  </div>
+  <p class="btn-note">Mobile: hamburger icon (24px, --ink) → full-screen overlay, nav links centered, Fraunces 2rem each, --surface background. Close on overlay click.</p>
+</section>
+
+<!-- COMPONENTS: BUTTONS -->
+<section class="section">
+  <div class="section-label">Buttons</div>
+  <div class="btn-row">
+    <button class="btn-primary">Book an Appointment</button>
+    <button class="btn-ghost">View services</button>
+  </div>
+  <p class="btn-note">
+    Primary: background --amber → --amber-dark on hover, 180ms ease, border-radius 2px, padding 14px 32px, font-size 14px, font-weight 500, letter-spacing 0.025em.<br>
+    Ghost: border 1px solid --amber, color --amber → fills amber on hover.<br>
+    <strong>No pill radius. No shadow. No icon appended to text.</strong>
+  </p>
+</section>
+
+<!-- COMPONENTS: FORM INPUTS -->
+<section class="section">
+  <div class="section-label">Form inputs</div>
+  <p class="sub">Bottom-border only. Label above as 11px uppercase DM Sans, 0.07em letter-spacing. No box, no background, no shadow. Focus: border-bottom transitions to --amber.</p>
+  <div class="input-demo">
+    <div class="field">
+      <label for="demo-name">Full name</label>
+      <input type="text" id="demo-name" placeholder="Priya Sharma" />
+    </div>
+    <div class="field">
+      <label for="demo-email">Email address</label>
+      <input type="email" id="demo-email" placeholder="priya@email.com" />
+    </div>
+    <div class="field">
+      <label for="demo-service">Service</label>
+      <select id="demo-service">
+        <option value="">Select a service</option>
+        <option>Haircut &amp; Styling · 45 min · ₹800</option>
+        <option>Hair Coloring · 90 min · ₹2,500</option>
+        <option>Facial Treatment · 60 min · ₹1,500</option>
+        <option>Blow Dry &amp; Styling · 45 min · ₹600</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="demo-phone">Phone number</label>
+      <input type="tel" id="demo-phone" placeholder="9876 543 210" />
+    </div>
+  </div>
+  <p class="btn-note" style="margin-top:24px;">shadcn/ui Select and Input components should be styled to match — override their default border/ring via the global CSS token block.</p>
+</section>
+
+<!-- COMPONENTS: SERVICE CARDS -->
+<section class="section">
+  <div class="section-label">Service cards</div>
+  <p class="sub">Portrait aspect ratio 3:4. White background (--surface). Image fills top of card, text below. No border, no shadow. Scale 1.02 on hover, 200ms ease. "Book" is a text link, not a button.</p>
+  <div class="cards-row">
+    <div class="service-card">
+      <div class="card-img">Haircut.png</div>
+      <div class="card-body">
+        <div class="card-name">Haircut &amp; Styling</div>
+        <div class="card-meta">
+          <span>45 min</span>
+          <span>₹800</span>
+        </div>
+        <a href="#" class="card-link">Book →</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="card-img">Hair coloring.png</div>
+      <div class="card-body">
+        <div class="card-name">Hair Coloring</div>
+        <div class="card-meta">
+          <span>90 min</span>
+          <span>₹2,500</span>
+        </div>
+        <a href="#" class="card-link">Book →</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="card-img">facial.png</div>
+      <div class="card-body">
+        <div class="card-name">Facial Treatment</div>
+        <div class="card-meta">
+          <span>60 min</span>
+          <span>₹1,500</span>
+        </div>
+        <a href="#" class="card-link">Book →</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="card-img">styling.png</div>
+      <div class="card-body">
+        <div class="card-name">Blow Dry &amp; Styling</div>
+        <div class="card-meta">
+          <span>45 min</span>
+          <span>₹600</span>
+        </div>
+        <a href="#" class="card-link">Book →</a>
+      </div>
+    </div>
+  </div>
+  <p class="btn-note" style="margin-top:20px;">On desktop: 4 columns, gap 20px. On tablet (768px): 2×2. On mobile: 2 columns (compact) or horizontal scroll. Image uses object-fit: cover, object-position: center top.</p>
+</section>
+
+<!-- HERO PREVIEW -->
+<section class="section">
+  <div class="section-label">Hero — layout preview</div>
+  <p class="sub">Split-screen. Left column: --surface, all text left-aligned. Right column: Hero.png full-bleed, no overlay, no text. The image speaks without words.</p>
+  <div class="hero-preview">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Unisex salon &nbsp;·&nbsp; Online booking</div>
+      <div class="hero-headline">For every<br>version of you.</div>
+      <div class="hero-sub">Cut, colour, and care — for every person, every style. Book your appointment online in under a minute.</div>
+      <button class="btn-primary" style="align-self:flex-start;">Book an Appointment</button>
+      <div class="hero-tags">
+        <span class="hero-tag">Haircut &amp; Styling</span>
+        <span class="hero-tag">Hair Coloring</span>
+        <span class="hero-tag">Facial</span>
+        <span class="hero-tag">Blow Dry</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="../public/images/salon/Hero.png" alt="Stylist working in the salon" />
+    </div>
+  </div>
+  <p class="btn-note" style="margin-top:16px;">
+    Mobile (&lt;768px): image collapses below text, full width, aspect-ratio 4:3.<br>
+    Nav is transparent over hero. Hero height is content-driven, not 100vh.
+  </p>
+</section>
+
+<!-- LAYOUT WIREFRAMES -->
+<section class="section">
+  <div class="section-label">Page layout — wireframes</div>
+
+  <h2 class="heading" style="margin-bottom:8px;">Full page structure</h2>
+  <p class="sub">Desktop: 1280px max content width, 80px horizontal padding. Mobile: 24px.</p>
+  <div class="wireframe-wrap">
+    <div class="wireframe">┌────────────────────────────────────────────────┐
+│  NAV: [SALON NAME]         Services  [Book]    │  72px, transparent→surface on scroll
+├────────────────────────────────────────────────┤
+│ HERO (split-screen)                            │
+│  [text left 45%]    │  [Hero.png full bleed]  │  content-height, min 520px
+├────────────────────────────────────────────────┤
+│ SERVICES                                       │
+│  "Our services"                                │  120px padding-block
+│  [4 portrait cards in a row]                  │
+├────────────────────────────────────────────────┤
+│ ABOUT  (background: --amber-pale)              │
+│  [interior.png 55%] │ [headline + body 45%]   │  96px padding-block
+├────────────────────────────────────────────────┤
+│ BOOKING WIDGET (background: --base)            │
+│  "Book an appointment"                         │  96px padding-block
+│  [3-step form: Service → Date/Time → Details] │
+├────────────────────────────────────────────────┤
+│ FOOTER (background: --ink)                     │
+│  [SALON NAME]  Hours  Contact  Social          │  48px padding-block
+└────────────────────────────────────────────────┘</div>
+  </div>
+
+  <h2 class="heading" style="margin-top:40px;margin-bottom:8px;">Booking widget — 3-step flow</h2>
+  <p class="sub">Three steps. Step indicators: small numbered dots (1 · 2 · 3), this IS a sequence. No back/next buttons — use shadcn Tabs or a controlled stepper. Contained in max-width 560px, centered.</p>
+  <div class="wireframe-wrap">
+    <div class="wireframe">Step 1: Select service
+  ┌─────────────────────────────────────────┐
+  │  ① Service  ② Date &amp; time  ③ Details  │  11px, --ink-3
+  │                                         │
+  │  [Select dropdown — service name]       │  bottom-border input
+  │                                         │
+  │  [Continue →]  amber button             │
+  └─────────────────────────────────────────┘
+
+Step 2: Choose date and time
+  ┌─────────────────────────────────────────┐
+  │  ① Service  ② Date &amp; time  ③ Details  │
+  │                                         │
+  │  [Date picker — shadcn Calendar]        │
+  │  [Time slot pills — unbooked only]      │  small tags, --surface bg, amber on select
+  │                                         │
+  │  [← Back]  [Continue →]                │
+  └─────────────────────────────────────────┘
+
+Step 3: Your details
+  ┌─────────────────────────────────────────┐
+  │  ① Service  ② Date &amp; time  ③ Details  │
+  │                                         │
+  │  Full name ______________________       │
+  │  Email address __________________       │
+  │  Phone number ___________________       │
+  │                                         │
+  │  [← Back]  [Confirm booking]  (amber)  │
+  └─────────────────────────────────────────┘</div>
+  </div>
+</section>
+
+<!-- MOTION -->
+<section class="section">
+  <div class="section-label">Motion — Framer Motion spec</div>
+  <table class="motion-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Trigger</th>
+        <th>Values</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hero text block</td>
+        <td>Page load</td>
+        <td><code>initial: {y:24, opacity:0}</code><br><code>animate: {y:0, opacity:1}</code><br><code>transition: {duration:0.7, ease:[0.25,0,0,1]}</code></td>
+        <td>Fires once, no repeat</td>
+      </tr>
+      <tr>
+        <td>Hero CTA button</td>
+        <td>Page load</td>
+        <td>Same as text, <code>delay: 0.3</code></td>
+        <td>Slightly after text</td>
+      </tr>
+      <tr>
+        <td>Hero image</td>
+        <td>Page load</td>
+        <td><code>initial: {opacity:0, scale:1.03}</code><br><code>animate: {opacity:1, scale:1}</code><br><code>transition: {duration:0.9, ease:[0.25,0,0,1]}</code></td>
+        <td>Simultaneous with text</td>
+      </tr>
+      <tr>
+        <td>Service card</td>
+        <td>Hover</td>
+        <td><code>whileHover: {scale:1.02}</code><br><code>transition: {duration:0.2}</code></td>
+        <td>No shadow change</td>
+      </tr>
+      <tr>
+        <td>Booking step</td>
+        <td>Step change</td>
+        <td><code>initial: {x:16, opacity:0}</code><br><code>animate: {x:0, opacity:1}</code><br><code>transition: {duration:0.3, ease:"easeOut"}</code></td>
+        <td>Directional: next → left, back → right</td>
+      </tr>
+      <tr>
+        <td>Nav background</td>
+        <td>Scroll &gt;80px</td>
+        <td>CSS transition on <code>background</code> and <code>box-shadow</code>, 200ms ease</td>
+        <td>No Framer Motion — CSS only</td>
+      </tr>
+      <tr>
+        <td>All animations</td>
+        <td>prefers-reduced-motion</td>
+        <td>Wrap every motion component: <code>const shouldAnimate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches</code></td>
+        <td>Required. Skip transforms, keep opacity fades if necessary.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- TAILWIND v4 TOKENS -->
+<section class="section">
+  <div class="section-label">Tailwind v4 tokens — add to src/index.css</div>
+  <p class="sub">In Tailwind v4, custom design tokens go in the CSS <code>@theme {}</code> block. No tailwind.config.ts needed. These become utility classes automatically (e.g. <code>bg-ink</code>, <code>text-amber</code>).</p>
+  <div class="wireframe" style="white-space:pre-wrap;font-size:0.75rem;line-height:1.8;">@import "tailwindcss";
+
+@theme {
+  /* Palette */
+  --color-ink:         #1A1815;
+  --color-ink-2:       #736D67;
+  --color-ink-3:       #B5AFA8;
+  --color-base:        #F4F1EC;
+  --color-surface:     #FDFCFB;
+  --color-rule:        #E0DAD3;
+  --color-amber:       #8C6840;
+  --color-amber-dark:  #6A4E2E;
+  --color-amber-pale:  #F3EBE1;
+
+  /* Typography */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans:    'DM Sans', system-ui, sans-serif;
+}
+
+/* shadcn/ui overrides — keep in :root, not inside @theme */
+:root {
+  --background:         var(--color-base);
+  --foreground:         var(--color-ink);
+  --primary:            var(--color-amber);
+  --primary-foreground: var(--color-surface);
+  --border:             var(--color-rule);
+  --input:              var(--color-rule);
+  --ring:               var(--color-amber);
+  --radius:             2px;
+  --muted-foreground:   var(--color-ink-2);
+}</div>
+  <p class="btn-note" style="margin-top:16px;">Example utility usage: <code>bg-base</code>, <code>text-ink-2</code>, <code>border-rule</code>, <code>bg-amber hover:bg-amber-dark</code>, <code>font-display</code></p>
+</section>
+
+<!-- PHOTOGRAPHY DIRECTION -->
+<section class="section">
+  <div class="section-label">Photography direction</div>
+  <ul class="locked-list">
+    <li><div><strong>Hero.png:</strong> Use full-bleed in the right 55% of the split-screen. object-fit: cover, object-position: center. The stylist and client read as craft, not glamour — this is the right tone.</div></li>
+    <li><div><strong>Service images (Haircut.png, Hair coloring.png, facial.png, styling.png):</strong> Used in portrait cards (3:4). object-fit: cover, object-position: center top. These are warm-lit, product-quality shots — do not add any overlay, filter, or color treatment.</div></li>
+    <li><div><strong>interior.png:</strong> Used in the about section at 55% width. This image is already colour-graded in warm amber — it pulls the palette directly. No filter needed. Let the image do the atmospheric work the text doesn't need to do.</div></li>
+    <li><div><strong>No decorative overlays.</strong> No gradient overlays on any image. The images are premium enough to carry the section on their own — overlays would reduce them to wallpaper.</div></li>
+    <li><div><strong>Alt text:</strong> Hero: "Stylist working with a client in the salon." Interior: "The salon floor, showing styling stations and natural light." Service images: describe the service, not the image ("Haircut and styling service").</div></li>
+  </ul>
+</section>
+
+<!-- RESPONSIVE -->
+<section class="section">
+  <div class="section-label">Responsive behaviour</div>
+  <table class="token-table">
+    <thead>
+      <tr><th>Breakpoint</th><th>Key changes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>≥1280px</code> desktop</td>
+        <td>Max-width 1280px, 80px horizontal padding. Hero: 45/55 split. Services: 4 columns. About: 55/45 split.</td>
+      </tr>
+      <tr>
+        <td><code>1024–1279px</code></td>
+        <td>80px → 48px horizontal padding. Hero: 45/55 maintained. Services: 4 columns. Font scale reduces slightly via clamp.</td>
+      </tr>
+      <tr>
+        <td><code>768–1023px</code> tablet</td>
+        <td>Hero: text full-width top, image below (4:3 aspect). Services: 2×2 grid. About: stacks (image top, text below). 40px padding.</td>
+      </tr>
+      <tr>
+        <td><code>&lt;768px</code> mobile</td>
+        <td>24px horizontal padding. Nav: hamburger. Services: 2-column grid with compact cards. Booking: full-width form. Hero image: 4:3 below text.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- COPY DECISIONS -->
+<section class="section">
+  <div class="section-label">Copy decisions — locked</div>
+  <ul class="locked-list">
+    <li><div><strong>Hero headline:</strong> "For every version of you." — communicates inclusivity without using the word "unisex." Four words. Present tense. No script emphasis on any word.</div></li>
+    <li><div><strong>Hero subhead:</strong> "Cut, colour, and care — for every person, every style. Book your appointment online in under a minute." — specific (lists three service categories), inclusive, practical (mentions booking).</div></li>
+    <li><div><strong>Primary CTA:</strong> "Book an Appointment" — used in nav (smaller) and hero (full button). Consistent across all surfaces.</div></li>
+    <li><div><strong>Services section heading:</strong> "Our services" — not "What we offer" or "Treatments." Simple, direct.</div></li>
+    <li><div><strong>Booking step 3 CTA:</strong> "Confirm booking" — not "Submit" or "Send." Describes what happens.</div></li>
+    <li><div><strong>Confirmation page heading:</strong> "You're booked in." — conversational, warm, active. Not "Booking confirmed" (passive).</div></li>
+    <li><div><strong>Salon placeholder name:</strong> Use "SOLENNE" in mockups (Fraunces, tracked +0.04em). Replace with real name before launch.</div></li>
+  </ul>
+</section>
+
+</body>
+</html>
