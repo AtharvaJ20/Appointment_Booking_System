@@ -8,8 +8,11 @@ from routes.api import api_bp
 from routes.admin import admin_bp
 
 
+_DIST = os.path.join(os.path.dirname(os.path.abspath(__file__)), "frontend", "dist")
+
+
 def create_app(config=Config):
-    app = Flask(__name__, static_folder="frontend/dist", static_url_path="")
+    app = Flask(__name__, static_folder=None)
     app.config.from_object(config)
 
     db.init_app(app)
@@ -47,13 +50,12 @@ def create_app(config=Config):
     @app.route("/", defaults={"path": ""})
     @app.route("/<path:path>")
     def serve_spa(path):
-        dist = app.static_folder
-        if not dist or not os.path.isdir(dist):
+        if not os.path.isdir(_DIST):
             return jsonify({"message": "Frontend not built. Run: cd frontend && npm run build"}), 503
-        target = os.path.join(dist, path)
+        target = os.path.join(_DIST, path)
         if path and os.path.isfile(target):
-            return send_from_directory(dist, path)
-        return send_from_directory(dist, "index.html")
+            return send_from_directory(_DIST, path)
+        return send_from_directory(_DIST, "index.html")
 
     with app.app_context():
         db.create_all()
