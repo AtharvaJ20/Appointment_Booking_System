@@ -33,7 +33,8 @@ env/
 Thumbs.db
 
 # Flask / Werkzeug
-instance/
+instance/*.db
+instance/*.sqlite3
 .webassets-cache
 
 # Testing
