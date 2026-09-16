@@ -56,13 +56,21 @@ export const InteractiveServiceCard = React.forwardRef<
       onMouseLeave={isTouch ? undefined : handleMouseLeave}
       style={isTouch ? undefined : { rotateX, rotateY, transformStyle: 'preserve-3d' }}
       className={cn(
-        'relative h-[14rem] sm:h-[20rem] lg:h-[26rem] w-full rounded-2xl bg-transparent shadow-2xl border border-white/10',
+        'relative h-[14rem] sm:h-[20rem] lg:h-[26rem] w-full rounded-2xl',
+        isTouch
+          ? 'overflow-hidden'
+          : 'overflow-visible bg-transparent shadow-2xl border border-white/10',
         className
       )}
     >
       <div
         style={isTouch ? undefined : { transform: 'translateZ(50px)', transformStyle: 'preserve-3d' }}
-        className="absolute inset-4 grid h-[calc(100%-2rem)] w-[calc(100%-2rem)] grid-rows-[1fr_auto] rounded-xl shadow-lg"
+        className={cn(
+          'absolute grid grid-rows-[1fr_auto] rounded-xl shadow-lg',
+          isTouch
+            ? 'inset-0 h-full w-full'
+            : 'inset-4 h-[calc(100%-2rem)] w-[calc(100%-2rem)]'
+        )}
       >
         <img
           src={imageUrl}

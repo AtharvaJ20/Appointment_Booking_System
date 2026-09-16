@@ -52,7 +52,7 @@ export function Services() {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="py-[120px] px-6 md:px-12 lg:px-20"
+      className="py-16 md:py-[120px] px-6 md:px-12 lg:px-20"
       style={{ maxWidth: '1280px', margin: '0 auto' }}
     >
       <motion.h2
