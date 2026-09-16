@@ -76,7 +76,7 @@ export function Services() {
                 initial={noAnim ? false : { y: 32, opacity: 0, scale: 0.97 }}
                 whileInView={noAnim ? undefined : { y: 0, opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, ease: EASE, delay: 0.2 + i * 0.08 }}
-                viewport={{ once: false, amount: 0.1 }}
+                viewport={{ once: true, amount: 0.1 }}
                 style={{ perspective: '1000px' }}
               >
                 <InteractiveServiceCard

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -85,35 +86,37 @@ export const InteractiveServiceCard = React.forwardRef<
           <div className="flex items-start justify-between gap-1">
             <div className="min-w-0">
               <h3
-                style={isTouch ? undefined : { transform: 'translateZ(50px)' }}
                 className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold leading-tight truncate"
               >
                 {title}
               </h3>
               <p
-                style={isTouch ? undefined : { transform: 'translateZ(40px)' }}
                 className="text-[0.5625rem] sm:text-[0.625rem] md:text-xs font-light text-white/80 mt-0.5"
               >
                 {subtitle}
               </p>
             </div>
-            <motion.a
-              href={href}
+            <motion.div
               whileHover={{ scale: 1.1, rotate: '2.5deg' }}
               whileTap={{ scale: 0.9 }}
-              aria-label={`Book ${title}`}
-              style={isTouch ? undefined : { transform: 'translateZ(60px)' }}
-              className="flex h-6 w-6 sm:h-7 sm:w-7 md:h-9 md:w-9 shrink-0 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm ring-1 ring-inset ring-white/30 transition-colors hover:bg-white/30"
+              style={isTouch ? undefined : { z: 60 }}
+              className="shrink-0"
             >
-              <ArrowUpRight className="h-3 w-3 md:h-4 md:w-4 text-white" />
-            </motion.a>
+              <Link
+                to={href}
+                aria-label={`Book ${title}`}
+                className="flex h-6 w-6 sm:h-7 sm:w-7 md:h-9 md:w-9 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm ring-1 ring-inset ring-white/30 transition-colors hover:bg-white/30"
+              >
+                <ArrowUpRight className="h-3 w-3 md:h-4 md:w-4 text-white" />
+              </Link>
+            </motion.div>
           </div>
 
           <motion.button
             onClick={onActionClick}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            style={isTouch ? undefined : { transform: 'translateZ(40px)' }}
+            style={isTouch ? undefined : { z: 40 }}
             className="w-full rounded-lg py-1.5 sm:py-2 md:py-2.5 text-center text-[0.625rem] sm:text-xs md:text-sm font-semibold text-white bg-white/10 backdrop-blur-md ring-1 ring-inset ring-white/20 hover:bg-white/20 transition-colors"
           >
             {actionText}
