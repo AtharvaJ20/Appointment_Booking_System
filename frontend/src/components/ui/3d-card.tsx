@@ -79,7 +79,7 @@ export const InteractiveServiceCard = React.forwardRef<
           loading="lazy"
           decoding="async"
         />
-        <div className="absolute inset-0 h-full w-full rounded-xl bg-gradient-to-b from-black/20 via-transparent to-black/60" />
+        <div className="absolute inset-0 h-full w-full rounded-xl bg-gradient-to-b from-black/20 via-black/5 to-black/75" />
 
         <div className="relative flex flex-col justify-between rounded-xl p-2.5 sm:p-3 md:p-4 text-white">
           <div className="flex items-start justify-between gap-1">
