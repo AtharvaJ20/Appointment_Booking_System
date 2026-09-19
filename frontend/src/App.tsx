@@ -2,8 +2,22 @@ import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 
 function ScrollToTop() {
-  const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  const { pathname, hash } = useLocation()
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo(0, 0)
+    } else {
+      const id = hash.slice(1)
+      const timer = setTimeout(() => {
+        const el = document.getElementById(id)
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 72
+          window.scrollTo({ top, behavior: 'smooth' })
+        }
+      }, 80)
+      return () => clearTimeout(timer)
+    }
+  }, [pathname, hash])
   return null
 }
 import { Nav } from './shared/components/Nav'

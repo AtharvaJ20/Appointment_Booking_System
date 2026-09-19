@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { api, ApiError } from '../../../shared/utils/api'
@@ -6,6 +6,13 @@ import type { Service, TimeSlot, BookingRequest, BookingResponse } from '../../.
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
+
+const STATIC_SERVICES: Service[] = [
+  { id: 1, name: 'Haircut & Styling',  duration_minutes: 45, price: 800,  image_filename: 'Haircut.png' },
+  { id: 2, name: 'Hair Coloring',      duration_minutes: 90, price: 2500, image_filename: 'Hair coloring.png' },
+  { id: 3, name: 'Facial Treatment',   duration_minutes: 60, price: 1500, image_filename: 'facial.png' },
+  { id: 4, name: 'Blow Dry & Styling', duration_minutes: 45, price: 600,  image_filename: 'styling.png' },
+]
 
 const STEP_VARIANTS = {
   enter: (dir: number) => ({ x: dir * 48, opacity: 0 }),
@@ -102,6 +109,136 @@ function BookingField({ id, label, type = 'text', value, error, onChange, autoCo
   )
 }
 
+// ── Custom service select ────────────────────────────────────────────────────
+
+interface ServiceSelectProps {
+  services: Service[]
+  selectedId: number | null
+  onSelect: (id: number) => void
+}
+
+function ServiceSelect({ services, selectedId, onSelect }: ServiceSelectProps) {
+  const [open, setOpen] = useState(false)
+  const [focusedIdx, setFocusedIdx] = useState(-1)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const selectedService = services.find(s => s.id === selectedId) ?? null
+
+  useEffect(() => {
+    if (!open) return
+    function handleClick(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [open])
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      if (!open) {
+        setOpen(true)
+        setFocusedIdx(services.findIndex(s => s.id === selectedId))
+      } else if (focusedIdx >= 0) {
+        const svc = services[focusedIdx]
+        if (svc) { onSelect(svc.id); setOpen(false) }
+      }
+    } else if (e.key === 'Escape') {
+      setOpen(false)
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      if (!open) { setOpen(true); setFocusedIdx(0) }
+      else setFocusedIdx(i => Math.min(i + 1, services.length - 1))
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setFocusedIdx(i => Math.max(i - 1, 0))
+    }
+  }
+
+  return (
+    <div ref={containerRef} className="relative">
+      <button
+        type="button"
+        id="service-select"
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls="service-listbox"
+        onClick={() => {
+          setOpen(o => !o)
+          setFocusedIdx(services.findIndex(s => s.id === selectedId))
+        }}
+        onKeyDown={handleKeyDown}
+        className="w-full flex items-center justify-between bg-transparent text-[0.9375rem] py-2 focus:outline-none cursor-pointer text-left transition-[border-color] duration-150"
+        style={{
+          color: selectedService ? 'var(--color-ink)' : 'var(--color-ink-3)',
+          borderBottom: `1px solid ${open ? 'var(--color-amber)' : 'var(--color-rule)'}`,
+          borderTop: 'none',
+          borderLeft: 'none',
+          borderRight: 'none',
+          borderRadius: 0,
+        }}
+      >
+        <span>{selectedService ? selectedService.name : 'Select a service'}</span>
+        <svg
+          width="16" height="16" viewBox="0 0 16 16" fill="none"
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+          aria-hidden="true"
+          style={{
+            flexShrink: 0,
+            color: 'var(--color-ink-2)',
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 200ms ease',
+          }}
+        >
+          <path d="M3 6l5 5 5-5" />
+        </svg>
+      </button>
+
+      {open && (
+        <ul
+          id="service-listbox"
+          role="listbox"
+          aria-label="Select a service"
+          className="absolute z-20 w-full mt-1 overflow-auto focus:outline-none"
+          style={{
+            backgroundColor: 'var(--color-surface)',
+            border: '1px solid var(--color-rule)',
+            borderRadius: '2px',
+            boxShadow: '0 4px 20px rgba(26,24,21,0.10)',
+            maxHeight: '240px',
+          }}
+        >
+          {services.map((s, idx) => {
+            const isSelected = s.id === selectedId
+            const isFocused = idx === focusedIdx
+            return (
+              <li
+                key={s.id}
+                role="option"
+                aria-selected={isSelected}
+                onMouseEnter={() => setFocusedIdx(idx)}
+                onClick={() => { onSelect(s.id); setOpen(false) }}
+                className="flex items-center justify-between px-4 py-3 cursor-pointer transition-colors duration-100"
+                style={{
+                  backgroundColor: isFocused ? 'var(--color-amber-pale)' : 'transparent',
+                  color: isSelected ? 'var(--color-amber-dark)' : 'var(--color-ink)',
+                }}
+              >
+                <span className="text-[0.9375rem]">{s.name}</span>
+                <span className="text-[0.8125rem] ml-4 shrink-0" style={{ color: 'var(--color-ink-2)' }}>
+                  {s.duration_minutes} min · ₹{s.price.toLocaleString('en-IN')}
+                </span>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 // ── Step 0: Service + Date ───────────────────────────────────────────────────
 
 interface Step0Props {
@@ -143,27 +280,11 @@ function Step0({ services, servicesLoading, selectedServiceId, onSelectService, 
           {servicesLoading ? (
             <div className="h-10 rounded animate-pulse" style={{ backgroundColor: 'var(--color-rule)' }} />
           ) : (
-            <select
-              id="service-select"
-              value={selectedServiceId ?? ''}
-              onChange={e => onSelectService(Number(e.target.value))}
-              className="w-full bg-transparent text-[0.9375rem] py-2 focus:outline-none transition-[border-color] duration-150 cursor-pointer"
-              style={{
-                color: 'var(--color-ink)',
-                borderBottom: '1px solid var(--color-rule)',
-                borderTop: 'none',
-                borderLeft: 'none',
-                borderRight: 'none',
-                borderRadius: 0,
-                appearance: 'none',
-              }}
-            >
-              {services.map(s => (
-                <option key={s.id} value={s.id}>
-                  {s.name} · {s.duration_minutes} min · ₹{s.price.toLocaleString('en-IN')}
-                </option>
-              ))}
-            </select>
+            <ServiceSelect
+              services={services}
+              selectedId={selectedServiceId}
+              onSelect={onSelectService}
+            />
           )}
         </div>
 
@@ -415,9 +536,9 @@ export function BookingPage() {
   const [direction, setDirection] = useState(1)
 
   // Step 0
-  const [services, setServices] = useState<Service[]>([])
+  const [services, setServices] = useState<Service[]>(STATIC_SERVICES)
   const [servicesLoading, setServicesLoading] = useState(true)
-  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null)
+  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(STATIC_SERVICES[0]!.id)
   const [selectedDate, setSelectedDate] = useState(todayStr())
 
   // Step 1
@@ -446,7 +567,16 @@ export function BookingPage() {
           setSelectedServiceId(data[0]!.id)
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        if (cancelled) return
+        setServices(STATIC_SERVICES)
+        const urlId = Number(searchParams.get('service_id'))
+        if (urlId && STATIC_SERVICES.some(s => s.id === urlId)) {
+          setSelectedServiceId(urlId)
+        } else {
+          setSelectedServiceId(STATIC_SERVICES[0]!.id)
+        }
+      })
       .finally(() => { if (!cancelled) setServicesLoading(false) })
     return () => { cancelled = true }
   }, [searchParams])

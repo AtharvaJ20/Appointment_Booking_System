@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
@@ -11,6 +11,10 @@ export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const prefersReducedMotion = useReducedMotion()
   const noAnim = prefersReducedMotion === true
+  const { pathname } = useLocation()
+  const isHome = pathname === '/'
+  const servicesHref = isHome ? '#services' : '/#services'
+  const aboutHref = isHome ? '#about' : '/#about'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80)
@@ -59,7 +63,7 @@ export function Nav() {
           {/* Desktop nav — links drop in from top on page load */}
           <nav className="hidden md:flex items-center gap-8" aria-label="Primary navigation">
             <motion.a
-              href="#services"
+              href={servicesHref}
               initial={noAnim ? false : { y: -8, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, ease: EASE, delay: 0.66 }}
@@ -68,7 +72,7 @@ export function Nav() {
               Services
             </motion.a>
             <motion.a
-              href="#about"
+              href={aboutHref}
               initial={noAnim ? false : { y: -8, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, ease: EASE, delay: 0.72 }}
@@ -127,8 +131,8 @@ export function Nav() {
               </button>
             </div>
             <nav className="flex flex-col items-center justify-center flex-1 gap-10" aria-label="Mobile navigation">
-              <a href="#services" className="font-display text-[2rem] font-light text-ink hover:text-ink-2 transition-colors duration-150" onClick={() => setMenuOpen(false)}>Services</a>
-              <a href="#about" className="font-display text-[2rem] font-light text-ink hover:text-ink-2 transition-colors duration-150" onClick={() => setMenuOpen(false)}>About</a>
+              <a href={servicesHref} className="font-display text-[2rem] font-light text-ink hover:text-ink-2 transition-colors duration-150" onClick={() => setMenuOpen(false)}>Services</a>
+              <a href={aboutHref} className="font-display text-[2rem] font-light text-ink hover:text-ink-2 transition-colors duration-150" onClick={() => setMenuOpen(false)}>About</a>
               <Link to="/book" className="mt-4 rounded-[2px] bg-amber hover:bg-amber-dark text-surface text-[0.875rem] font-medium tracking-[0.025em] px-8 py-[14px] transition-colors duration-[180ms]" onClick={() => setMenuOpen(false)}>
                 Book an Appointment
               </Link>
@@ -166,7 +170,7 @@ export function Nav() {
               {/* Nav links — stagger in after overlay settles */}
               <nav className="flex flex-col items-center justify-center flex-1 gap-10" aria-label="Mobile navigation">
                 <motion.a
-                  href="#services"
+                  href={servicesHref}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, ease: EASE, delay: 0.15 }}
@@ -176,7 +180,7 @@ export function Nav() {
                   Services
                 </motion.a>
                 <motion.a
-                  href="#about"
+                  href={aboutHref}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, ease: EASE, delay: 0.23 }}
