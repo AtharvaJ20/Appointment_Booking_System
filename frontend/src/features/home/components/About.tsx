@@ -39,7 +39,7 @@ export function About() {
       ref={sectionRef}
       id="about"
       aria-labelledby="about-heading"
-      style={{ backgroundColor: 'var(--color-amber-pale)' }}
+      style={{ backgroundColor: 'var(--color-amber-pale)', scrollMarginTop: '72px' }}
     >
       <div
         className="mx-auto flex flex-col md:grid"
