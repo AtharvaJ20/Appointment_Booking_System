@@ -521,7 +521,7 @@ export function BookingPage() {
       }
 
   return (
-    <main id="main-content" style={{ backgroundColor: 'var(--color-base)', paddingTop: '72px' }}>
+    <main id="main-content" style={{ backgroundColor: 'var(--color-base)', paddingTop: '72px', minHeight: '100vh' }}>
       <section className="py-[80px] px-6 md:px-12 lg:px-20">
         <div className="mx-auto" style={{ maxWidth: '480px' }}>
 

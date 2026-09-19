@@ -63,7 +63,8 @@ export function Nav() {
               initial={noAnim ? false : { y: -8, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, ease: EASE, delay: 0.66 }}
-              className="text-[0.875rem] text-ink-2 hover:text-ink transition-colors duration-150"
+              className="text-[0.875rem] transition-colors duration-200"
+              style={{ color: scrolled ? 'var(--color-ink-2)' : 'var(--color-surface)' }}
             >
               Services
             </motion.a>
@@ -72,7 +73,8 @@ export function Nav() {
               initial={noAnim ? false : { y: -8, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, ease: EASE, delay: 0.72 }}
-              className="text-[0.875rem] text-ink-2 hover:text-ink transition-colors duration-150"
+              className="text-[0.875rem] transition-colors duration-200"
+              style={{ color: scrolled ? 'var(--color-ink-2)' : 'var(--color-surface)' }}
             >
               About
             </motion.a>

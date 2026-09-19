@@ -5,7 +5,7 @@ import { BookingCta } from './BookingCta'
 
 export function HomePage() {
   return (
-    <main id="main-content">
+    <main id="main-content" style={{ paddingTop: '72px' }}>
       <Hero />
       <Services />
       <About />

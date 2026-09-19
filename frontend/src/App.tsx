@@ -1,4 +1,11 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
 import { Nav } from './shared/components/Nav'
 import { Footer } from './shared/components/Footer'
 import { HomePage } from './features/home/components/HomePage'
@@ -26,6 +33,7 @@ function ClientLayout() {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Admin routes — own minimal layout, no client Nav/Footer */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
