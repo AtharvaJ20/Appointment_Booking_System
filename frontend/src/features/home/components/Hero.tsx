@@ -121,6 +121,15 @@ export function Hero() {
           animate={{ scale: 1, y: '0%' }}
           transition={{ duration: 1.3, ease: EASE }}
         />
+        {/* Top scrim — ensures nav link legibility as image scrolls behind the fixed header */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 pointer-events-none"
+          style={{
+            height: '40%',
+            background: 'linear-gradient(to bottom, rgba(26,24,21,0.30) 0%, rgba(26,24,21,0) 100%)',
+          }}
+        />
       </motion.div>
     </section>
   )
